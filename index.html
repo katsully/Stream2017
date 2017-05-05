@@ -53,6 +53,7 @@
 </head>
 
 <body>
+  <div id="chat_bar" style="display:none"></div>
   <div id="container">
     <h1>ITP Thesis Livestream</h1>
     <div id="player"></div>
@@ -63,7 +64,7 @@
       </div>
     </div>
     <div id="chat">
-      <a href="http://chat.itp.io/thesis17" target="_NEW">Join the chat room</a> 💬
+      <a id = "joinChat" href="#" style = "display:none;">Join the chat room 💬</a> 
     </div>
 
   </div>
@@ -149,6 +150,116 @@
 
     setInterval(getData, 10000);
   </script>
+
+  <script type="text/javascript">
+
+  var iframe = document.createElement('iframe');
+  iframe.src = 'https://svrround.com/nyuitp/preflight/chat';
+
+  var count = 0;
+  var showChat = false;
+
+  window.addEventListener("load",function(){
+      waitforOffset();
+      var joinChat = document.getElementById("joinChat");
+
+      var join360Stream = document.getElementById("join360Stream");
+
+      joinChat.addEventListener("click",function(e){
+        if(showChat === false){
+
+          document.getElementById("container").style.marginRight = "25%";
+          document.getElementById("chat_bar").style.width = "25%";
+          document.getElementById("chat_bar").style.display = "block";
+
+          iframe.style.right = "0px";
+          iframe.style.opacity = "1";
+          e.target.innerHTML = "Close the chat room 💬";
+          join360Stream.style.right = "10px";
+          join360Stream.style.opacity = "1";
+        }
+        else{
+
+          document.getElementById("container").style.marginRight = "auto";
+          document.getElementById("chat_bar").style.display = "none";
+
+          iframe.style.right = "-300px";
+          iframe.style.opacity = "0";
+          e.target.innerHTML = "";
+          e.target.innerHTML = "Join the chat room 💬";
+          join360Stream.style.right = "-200px";
+          join360Stream.style.opacity = "0";
+
+        }
+        showChat = !showChat;
+      })
+  })
+
+  function waitforOffset(){
+    count++;
+    if(count > 10 ){
+      console.log("stop finding");
+      return;
+    }
+    setTimeout(function(){
+      var player = document.getElementById("player");
+
+      if(player){
+        if(player.offsetHeight != 0 ){
+          var chatbar = document.getElementById("chat_bar");
+          chatbar.appendChild(iframe);
+          iframe.style.border = 'none';
+          iframe.style.position = 'absolute';
+          iframe.style.bottom = '0';
+          iframe.style.top = '64px';
+          iframe.style.right = "-300px";
+          iframe.style.width = '300px';
+          iframe.style.opacity = "0";
+          iframe.style.height = player.offsetHeight + "px";
+          iframe.style.transition = "all 0.5s ease-in-out";
+          console.log("set success on " + count +" try");
+          var joinChat = document.getElementById("joinChat");
+          joinChat.style.display = "block";
+        }
+        else{
+          waitforOffset();
+        }
+      }
+      else{
+        waitforOffset();
+      }
+    },1000);
+  }
+</script>
+
+<style>
+
+  body{
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  #join360Stream{
+    position: absolute;
+    height: 32px;
+    width: 200px;
+    line-height: 32px;
+    top: 20px;
+    right: -200px;
+    transition: all 0.5s ease-in-out;
+    opacity: 0;
+    background-color: rgba(255,255,255,0.2);
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+  }
+
+</style>
+
+<div id = "join360Stream">
+  <a href = "https://svrround.com/nyuitp/preflight" target="_NEW">Watch the show in 360°.</a> 
+</div>
+
 </body>
 
 </html>
