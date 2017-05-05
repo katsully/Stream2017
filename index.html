@@ -171,6 +171,7 @@
           document.getElementById("container").style.marginRight = "25%";
           document.getElementById("chat_bar").style.width = "25%";
           document.getElementById("chat_bar").style.display = "block";
+          iframe.style.height = document.getElementById("player").offsetHeight + "px";
 
           iframe.style.right = "0px";
           iframe.style.opacity = "1";
@@ -182,6 +183,7 @@
 
           document.getElementById("container").style.marginRight = "auto";
           document.getElementById("chat_bar").style.display = "none";
+          iframe.style.height = document.getElementById("player").offsetHeight + "px";
 
           iframe.style.right = "-300px";
           iframe.style.opacity = "0";
