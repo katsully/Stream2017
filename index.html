@@ -2,82 +2,88 @@
 <html lang="en">
 
 <head>
-  <title>ITP Thesis</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <style>
+    <title>ITP Thesis</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <style>
     body {
-      font: 16px sans-serif;
-      color: #fff;
-      margin: 0;
-      background-color: #222;
-      line-height: 150%;
+        font: 16px sans-serif;
+        color: #fff;
+        margin: 0;
+        background-color: #222;
+        line-height: 150%;
     }
+    
     a {
-      color: #fff;
+        color: #fff;
     }
+    
     h1 {
-      margin: 0;
+        margin: 0;
     }
+    
     #container {
-      max-width: 900px;
-      margin: auto;
-      margin-top: 20px;
+        max-width: 900px;
+        margin: auto;
+        margin-top: 20px;
     }
+    
     #player {
-      width: 100%;
-      margin: 20px 0;
+        width: 100%;
+        margin: 20px 0;
     }
+    
     #next {
-      opacity: .7;
+        opacity: .7;
     }
+    
     #chat {
-      margin-top: 20px;
+        margin-top: 20px;
     }
+    
     #signup {
-      width: 400px;
-      height: 200px;
+        width: 400px;
+        height: 200px;
     }
+    
     @media (max-width: 600px) {
-      #signup {
-        height: 350px;
-      }
+        #signup {
+            height: 350px;
+        }
     }
+    
     #lol {
-      display: none;
+        display: none;
     }
-  </style>
+    </style>
 </head>
 
 <body>
-  <div id="chat_bar" style="display:none"></div>
-  <div id="container">
-    <h1>ITP Thesis Livestream</h1>
-    <div id="player"></div>
-    <div id="info">
-      <div id="current">On now: <span id="current-presenter"></span>
-      </div>
-      <div id="next">Up next: <span id="next-presenter"></span>
-      </div>
+    <div id="chat_bar" style="display:none"></div>
+    <div id="container">
+        <h1>ITP Thesis Livestream</h1>
+        <div id="player"></div>
+        <div id="info">
+            <div id="current">On now: <span id="current-presenter"></span>
+            </div>
+            <div id="next">Up next: <span id="next-presenter"></span>
+            </div>
+        </div>
+        <div id="chat">
+            <a id="joinChat" href="#" style="display:none;">Join the chat room </a>
+        </div>
     </div>
-    <div id="chat">
-      <a id = "joinChat" href="#" style = "display:none;">Join the chat room 💬</a> 
-    </div>
-
-  </div>
-
-  <div id="lol"></div>
-  <!-- <script src="https://content.jwplatform.com/libraries/DbXZPMBQ.js"></script> -->
-  <script src="https://content.jwplatform.com/libraries/rzUNHyv0.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-  <script src="moment.min.js"></script>
-  <script src="moment-timezone-with-data-2010-2020.js"></script>
-  <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
-
-  <script type="text/javascript">
+    <div id="lol"></div>
+    <!-- <script src="https://content.jwplatform.com/libraries/DbXZPMBQ.js"></script> -->
+    <script src="https://content.jwplatform.com/libraries/rzUNHyv0.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="moment.min.js"></script>
+    <script src="moment-timezone-with-data-2010-2020.js"></script>
+    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script type="text/javascript">
     var presentations, timeout;
 
     var offset = 0;
@@ -85,183 +91,185 @@
     var player = jwplayer('player');
 
     player.setup({
-      playlist: [{
-        sources: [{
-          file: "rtmp://128.122.151.187:1935/live/itp"
-        }, {
-          file: "http://128.122.151.187:1935/live/itp/playlist.m3u8"
-        }]
-      }],
-      primary: "flash"
+        playlist: [{
+            sources: [{
+                file: "rtmp://128.122.151.187:1935/live/itp"
+            }, {
+                file: "http://128.122.151.187:1935/live/itp/playlist.m3u8"
+            }]
+        }],
+        primary: "flash"
     });
 
     function showCurrent() {
-      var now = moment().tz('America/New_York');
+        var now = moment().tz('America/New_York');
 
-      var _presentations = presentations.map(function(p) {
-        return {date: moment(p.date).add(offset, 'minutes'), person: p.person, project: p.project};
-      });
+        var _presentations = presentations.map(function(p) {
+            return {
+                date: moment(p.date).add(offset, 'minutes'),
+                person: p.person,
+                project: p.project
+            };
+        });
 
-      var current = _presentations.filter(function(p) {
-        var start = p.date;
-        var end = moment(start).add(12, 'minutes');
-        return now.isBetween(start, end);
-      })[0];
+        var current = _presentations.filter(function(p) {
+            var start = p.date;
+            var end = moment(start).add(12, 'minutes');
+            return now.isBetween(start, end);
+        })[0];
 
-      if (current) {
-        $('#current-presenter').html(current.person + ' - "' + current.project + '"');
-      } else {
-        $('#current-presenter').html('No one');
-      }
+        if (current) {
+            $('#current-presenter').html(current.person + ' - "' + current.project + '"');
+        } else {
+            $('#current-presenter').html('No one');
+        }
 
-      var next = _presentations.filter(function(p) {
-        return p.date.isAfter(now);
-      })[0];
+        var next = _presentations.filter(function(p) {
+            return p.date.isAfter(now);
+        })[0];
 
-      if (next) {
-        $('#next-presenter').html(next.person + ' (starting ' + next.date.fromNow() + ')');
-      } else {
-        $('#next-presenter').html('No one!');
-      }
+        if (next) {
+            $('#next-presenter').html(next.person + ' (starting ' + next.date.fromNow() + ')');
+        } else {
+            $('#next-presenter').html('No one!');
+        }
 
-      clearTimeout(timeout);
-      timeout = setTimeout(showCurrent, 2000);
+        clearTimeout(timeout);
+        timeout = setTimeout(showCurrent, 2000);
     }
 
     function getData() {
 
-      $.getJSON('https://katsully.github.io/Stream2017/presenters.json', function(data) {
-      // $.getJSON('presenters.json', function(data) {
-        data = data.map(function(d) {
-          d.date = moment(d.date).tz('America/New_York');
-          return d;
-        });
-        data = data.sort(function(a, b) {
-          return a.date.isBefore(b.date) ? -1 : 1;
-        });
+        $.getJSON('https://katsully.github.io/Stream2017/presenters.json', function(data) {
+            // $.getJSON('presenters.json', function(data) {
+            data = data.map(function(d) {
+                d.date = moment(d.date).tz('America/New_York');
+                return d;
+            });
+            data = data.sort(function(a, b) {
+                return a.date.isBefore(b.date) ? -1 : 1;
+            });
 
-        presentations = data;
+            presentations = data;
 
-        showCurrent()
-      });
+            showCurrent()
+        });
     }
 
     getData();
 
     setInterval(getData, 10000);
-  </script>
+    </script>
+    <script type="text/javascript">
+    var iframe = document.createElement('iframe');
+    iframe.src = 'https://svrround.com/nyuitp/preflight/chat';
 
-  <script type="text/javascript">
+    var count = 0;
+    var showChat = false;
 
-  var iframe = document.createElement('iframe');
-  iframe.src = 'https://svrround.com/nyuitp/preflight/chat';
-
-  var count = 0;
-  var showChat = false;
-
-  window.addEventListener("load",function(){
-      waitforOffset();
-      var joinChat = document.getElementById("joinChat");
-
-      var join360Stream = document.getElementById("join360Stream");
-
-      joinChat.addEventListener("click",function(e){
-        if(showChat === false){
-
-          document.getElementById("container").style.marginRight = "25%";
-          document.getElementById("chat_bar").style.width = "25%";
-          document.getElementById("chat_bar").style.display = "block";
-          iframe.style.height = document.getElementById("player").offsetHeight + "px";
-
-          iframe.style.right = "0px";
-          iframe.style.opacity = "1";
-          e.target.innerHTML = "Close the chat room 💬";
-          join360Stream.style.right = "10px";
-          join360Stream.style.opacity = "1";
-        }
-        else{
-
-          document.getElementById("container").style.marginRight = "auto";
-          document.getElementById("chat_bar").style.display = "none";
-          iframe.style.height = document.getElementById("player").offsetHeight + "px";
-
-          iframe.style.right = "-300px";
-          iframe.style.opacity = "0";
-          e.target.innerHTML = "";
-          e.target.innerHTML = "Join the chat room 💬";
-          join360Stream.style.right = "-200px";
-          join360Stream.style.opacity = "0";
-
-        }
-        showChat = !showChat;
-      })
-  })
-
-  function waitforOffset(){
-    count++;
-    if(count > 10 ){
-      console.log("stop finding");
-      return;
-    }
-    setTimeout(function(){
-      var player = document.getElementById("player");
-
-      if(player){
-        if(player.offsetHeight != 0 ){
-          var chatbar = document.getElementById("chat_bar");
-          chatbar.appendChild(iframe);
-          iframe.style.border = 'none';
-          iframe.style.position = 'absolute';
-          iframe.style.bottom = '0';
-          iframe.style.top = '64px';
-          iframe.style.right = "-300px";
-          iframe.style.width = '300px';
-          iframe.style.opacity = "0";
-          iframe.style.height = player.offsetHeight + "px";
-          iframe.style.transition = "all 0.5s ease-in-out";
-          console.log("set success on " + count +" try");
-          var joinChat = document.getElementById("joinChat");
-          joinChat.style.display = "block";
-        }
-        else{
-          waitforOffset();
-        }
-      }
-      else{
+    window.addEventListener("load", function() {
         waitforOffset();
-      }
-    },1000);
-  }
-</script>
+        var joinChat = document.getElementById("joinChat");
 
-<style>
+        var join360Stream = document.getElementById("join360Stream");
 
-  body{
-    width: 100%;
-    overflow-x: hidden;
-  }
+        joinChat.addEventListener("click", function(e) {
 
-  #join360Stream{
-    position: absolute;
-    height: 32px;
-    width: 200px;
-    line-height: 32px;
-    top: 20px;
-    right: -200px;
-    transition: all 0.5s ease-in-out;
-    opacity: 0;
-    background-color: rgba(255,255,255,0.2);
-    border-radius: 4px;
-    text-align: center;
-    cursor: pointer;
-  }
+            var mo_dect = (window.innerWidth < 1224) ? true : false;
 
-</style>
+            if (mo_dect) {
+                e.target.innerHTML = '<a href = "https://svrround.com/nyuitp/preflight/chat" target="_NEW">Open a new chat window!</a>';
+            } else {
 
-<div id = "join360Stream">
-  <a href = "https://svrround.com/nyuitp/preflight" target="_NEW">Watch the show in 360°.</a> 
-</div>
+                if (showChat === false) {
 
+                    document.getElementById("container").style.marginRight = "25%";
+                    document.getElementById("chat_bar").style.width = "25%";
+                    document.getElementById("chat_bar").style.display = "block";
+                    iframe.style.height = document.getElementById("player").offsetHeight + "px";
+
+                    iframe.style.right = "0px";
+                    iframe.style.opacity = "1";
+                    e.target.innerHTML = "Close the chat room ";
+                    join360Stream.style.right = "10px";
+                    join360Stream.style.opacity = "1";
+                } else {
+
+                    document.getElementById("container").style.marginRight = "auto";
+                    document.getElementById("chat_bar").style.display = "none";
+                    iframe.style.height = document.getElementById("player").offsetHeight + "px";
+
+                    iframe.style.right = "-300px";
+                    iframe.style.opacity = "0";
+                    e.target.innerHTML = "";
+                    e.target.innerHTML = "Join the chat room ";
+                    join360Stream.style.right = "-200px";
+                    join360Stream.style.opacity = "0";
+
+                }
+                showChat = !showChat;
+            }
+        })
+    })
+
+    function waitforOffset() {
+        count++;
+        if (count > 10) {
+            console.log("stop finding");
+            return;
+        }
+        setTimeout(function() {
+            var player = document.getElementById("player");
+
+            if (player) {
+                if (player.offsetHeight != 0) {
+                    var chatbar = document.getElementById("chat_bar");
+                    chatbar.appendChild(iframe);
+                    iframe.style.border = 'none';
+                    iframe.style.position = 'absolute';
+                    iframe.style.bottom = '0';
+                    iframe.style.top = '64px';
+                    iframe.style.right = "-300px";
+                    iframe.style.width = '300px';
+                    iframe.style.opacity = "0";
+                    iframe.style.height = player.offsetHeight + "px";
+                    iframe.style.transition = "all 0.5s ease-in-out";
+                    console.log("set success on " + count + " try");
+                    var joinChat = document.getElementById("joinChat");
+                    joinChat.style.display = "block";
+                } else {
+                    waitforOffset();
+                }
+            } else {
+                waitforOffset();
+            }
+        }, 1000);
+    }
+    </script>
+    <style>
+    body {
+        width: 100%;
+        overflow-x: hidden;
+    }
+    
+    #join360Stream {
+        position: absolute;
+        height: 32px;
+        width: 200px;
+        line-height: 32px;
+        top: 20px;
+        right: -200px;
+        transition: all 0.5s ease-in-out;
+        opacity: 0;
+        background-color: rgba(255, 255, 255, 0.2);
+        border-radius: 4px;
+        text-align: center;
+        cursor: pointer;
+    }
+    </style>
+    <div id="join360Stream">
+        <a href="https://svrround.com/nyuitp/preflight" target="_NEW">Watch the show in 360°.</a>
+    </div>
 </body>
 
 </html>
