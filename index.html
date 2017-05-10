@@ -75,8 +75,14 @@
         <div id="chat">
             <a id="joinChat" href="#" style="display:none;">Join the chat room </a>
         </div>
+        <div>
+            <br>
+            <br><b>Dear Chrome users,<br>If you experience any errors, please follow the instructions:</b>
+            <br>1) Type <a href="chrome://settings/content">chrome://settings/content</a> in the chrome address bar. <a href="https://itp.nyu.edu/thesis/p1.png">(See photo)</a>
+            <br>2) Scroll down to Flash
+            <br>3) Select "Allow sites to run Flash"<a href="https://itp.nyu.edu/thesis/p2.png"> (See photo)</a></div>
+        <div id="lol"></div>
     </div>
-    <div id="lol"></div>
     <!-- <script src="https://content.jwplatform.com/libraries/DbXZPMBQ.js"></script> -->
     <script src="https://content.jwplatform.com/libraries/rzUNHyv0.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
@@ -102,7 +108,13 @@
     });
 
     function showCurrent() {
-        var now = moment().tz('America/New_York');
+
+        var timezone_intl = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        timezone_intl = timezone_intl ? timezone_intl : 'America/New_York';
+
+        var now = moment().tz(timezone_intl);
+
+        var now = moment().tz(timezone_intl);
 
         var _presentations = presentations.map(function(p) {
             return {
@@ -162,7 +174,7 @@
     </script>
     <script type="text/javascript">
     var iframe = document.createElement('iframe');
-    iframe.src = 'https://svrround.com/nyuitp/preflight/chat';
+    iframe.src = 'https://svrround.com/nyuitp/thesis/chat';
 
     var count = 0;
     var showChat = false;
@@ -178,7 +190,7 @@
             var mo_dect = (window.innerWidth < 1224) ? true : false;
 
             if (mo_dect) {
-                e.target.innerHTML = '<a href = "https://svrround.com/nyuitp/preflight/chat" target="_NEW">Open a new chat window!</a>';
+                e.target.innerHTML = '<a href = "https://svrround.com/nyuitp/preflight/chat" target="_NEW">Click to open a new chat window! </a>';
             } else {
 
                 if (showChat === false) {
@@ -270,6 +282,22 @@
     <div id="join360Stream">
         <a href="https://svrround.com/nyuitp/preflight" target="_NEW">Watch the show in 360°.</a>
     </div>
+    <script>
+    (function(i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function() {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-85790016-2', 'auto');
+    ga('send', 'pageview');
+    </script>
 </body>
 
 </html>
